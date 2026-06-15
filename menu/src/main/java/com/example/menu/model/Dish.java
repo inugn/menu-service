@@ -1,6 +1,8 @@
 package com.example.menu.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Positive;
 
 @Entity
 @Table(name = "dish")
@@ -11,13 +13,15 @@ public class Dish {
     private Long id;
 
     @Column(nullable = false)
+    @NotBlank(message = "Название блюда обязательно")
     private String name;
 
+    @Positive(message = "Цена должна быть больше нуля")
     private Double price;
 
     private Boolean isVegetarian;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id", nullable = false)
     private MenuCategory category;
 

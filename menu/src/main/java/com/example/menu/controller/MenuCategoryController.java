@@ -4,6 +4,7 @@ import com.example.menu.model.MenuCategory;
 import com.example.menu.service.MenuCategoryService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import jakarta.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -17,7 +18,7 @@ public class MenuCategoryController {
     }
 
     @PostMapping
-    public ResponseEntity<MenuCategory> create(@RequestBody MenuCategory category) {
+    public ResponseEntity<MenuCategory> create(@Valid @RequestBody MenuCategory category) {
         return ResponseEntity.ok(categoryService.create(category));
     }
 

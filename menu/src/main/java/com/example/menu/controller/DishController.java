@@ -1,9 +1,11 @@
 package com.example.menu.controller;
 
 import com.example.menu.model.Dish;
+import com.example.menu.model.DishDTO;
 import com.example.menu.service.DishService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import jakarta.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -17,22 +19,22 @@ public class DishController {
     }
 
     @PostMapping
-    public ResponseEntity<Dish> create(@RequestBody Dish dish, @RequestParam Long categoryId) {
+    public ResponseEntity<DishDTO> create(@Valid @RequestBody Dish dish, @RequestParam Long categoryId) {
         return ResponseEntity.ok(dishService.create(dish, categoryId));
     }
 
     @GetMapping
-    public ResponseEntity<List<Dish>> getAll() {
+    public ResponseEntity<List<DishDTO>> getAll() {
         return ResponseEntity.ok(dishService.getAll());
     }
 
     @GetMapping("/category/{categoryId}")
-    public ResponseEntity<List<Dish>> getByCategoryId(@PathVariable Long categoryId) {
+    public ResponseEntity<List<DishDTO>> getByCategoryId(@PathVariable Long categoryId) {
         return ResponseEntity.ok(dishService.getByCategoryId(categoryId));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Dish> update(@PathVariable Long id, @RequestBody Dish dish) {
+    public ResponseEntity<DishDTO> update(@PathVariable Long id, @RequestBody Dish dish) {
         return ResponseEntity.ok(dishService.update(id, dish));
     }
 

@@ -1,11 +1,13 @@
 package com.example.menu.service;
 
 import com.example.menu.model.Dish;
+import com.example.menu.model.DishDTO;
 import com.example.menu.model.MenuCategory;
 import com.example.menu.repository.DishRepository;
 import com.example.menu.repository.MenuCategoryRepository;
 import org.springframework.stereotype.Service;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class DishService {
@@ -18,27 +20,31 @@ public class DishService {
         this.categoryRepository = categoryRepository;
     }
 
-    public Dish create(Dish dish, Long categoryId) {
+    public DishDTO create(Dish dish, Long categoryId) {
         MenuCategory category = categoryRepository.findById(categoryId)
                 .orElseThrow(() -> new RuntimeException("Категория не найдена"));
         dish.setCategory(category);
-        return dishRepository.save(dish);
+        return new DishDTO(dishRepository.save(dish));
     }
 
-    public List<Dish> getAll() {
-        return dishRepository.findAll();
+    public List<DishDTO> getAll() {
+        return dishRepository.findAllWithCategory().stream()
+                .map(DishDTO::new)
+                .collect(Collectors.toList());
     }
 
-    public List<Dish> getByCategoryId(Long categoryId) {
-        return dishRepository.findByCategoryId(categoryId);
+    public List<DishDTO> getByCategoryId(Long categoryId) {
+        return dishRepository.findByCategoryId(categoryId).stream()
+                .map(DishDTO::new)
+                .collect(Collectors.toList());
     }
 
-    public Dish update(Long id, Dish updatedDish) {
+    public DishDTO update(Long id, Dish updatedDish) {
         Dish dish = dishRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Блюдо не найдено"));
         dish.setName(updatedDish.getName());
         dish.setPrice(updatedDish.getPrice());
-        return dishRepository.save(dish);
+        return new DishDTO(dishRepository.save(dish));
     }
 
     public void delete(Long id) {

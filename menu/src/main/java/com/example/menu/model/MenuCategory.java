@@ -1,6 +1,7 @@
 package com.example.menu.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 
 @Entity
 @Table(name = "menu_category")
@@ -11,6 +12,7 @@ public class MenuCategory {
     private Long id;
 
     @Column(unique = true, nullable = false)
+    @NotBlank(message = "Название категории обязательно")
     private String name;
 
     private String description;
