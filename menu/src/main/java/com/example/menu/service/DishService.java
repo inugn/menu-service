@@ -48,6 +48,9 @@ public class DishService {
     }
 
     public void delete(Long id) {
+        if (!dishRepository.existsById(id)) {
+            throw new RuntimeException("Блюдо не найдено");
+        }
         dishRepository.deleteById(id);
     }
 }

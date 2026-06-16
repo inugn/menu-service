@@ -26,6 +26,9 @@ public class MenuCategoryService {
     }
 
     public void delete(Long id) {
+        if (!categoryRepository.existsById(id)) {
+            throw new RuntimeException("Категория не найдена");
+        }
         if (!dishRepository.findByCategoryId(id).isEmpty()) {
             throw new RuntimeException("Нельзя удалить категорию, в которой уже есть блюда");
         }
