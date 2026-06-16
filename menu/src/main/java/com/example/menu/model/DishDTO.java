@@ -1,5 +1,11 @@
 package com.example.menu.model;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+@Getter
+@Setter
+@NoArgsConstructor
 public class DishDTO {
 
     private Long id;
@@ -9,7 +15,6 @@ public class DishDTO {
     private Long categoryId;
     private String categoryName;
 
-    public DishDTO() {}
 
     public DishDTO(Dish dish) {
         this.id = dish.getId();
@@ -20,21 +25,4 @@ public class DishDTO {
         this.categoryName = dish.getCategory().getName();
     }
 
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
-
-    public String getName() { return name; }
-    public void setName(String name) { this.name = name; }
-
-    public Double getPrice() { return price; }
-    public void setPrice(Double price) { this.price = price; }
-
-    public Boolean getIsVegetarian() { return isVegetarian; }
-    public void setIsVegetarian(Boolean isVegetarian) { this.isVegetarian = isVegetarian; }
-
-    public Long getCategoryId() { return categoryId; }
-    public void setCategoryId(Long categoryId) { this.categoryId = categoryId; }
-
-    public String getCategoryName() { return categoryName; }
-    public void setCategoryName(String categoryName) { this.categoryName = categoryName; }
 }
