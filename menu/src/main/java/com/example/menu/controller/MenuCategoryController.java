@@ -29,11 +29,7 @@ public class MenuCategoryController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<String> delete(@PathVariable Long id) {
-        try {
-            categoryService.delete(id);
-            return ResponseEntity.ok("Категория удалена");
-        } catch (RuntimeException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
+        categoryService.delete(id);
+        return ResponseEntity.ok("Категория удалена");
     }
 }
