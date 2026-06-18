@@ -1,4 +1,5 @@
-package com.example.menu.model;
+package com.example.menu.dto;
+import com.example.menu.model.Dish;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

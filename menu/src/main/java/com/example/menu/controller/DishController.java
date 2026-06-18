@@ -1,7 +1,7 @@
 package com.example.menu.controller;
 
 import com.example.menu.model.Dish;
-import com.example.menu.model.DishDTO;
+import com.example.menu.dto.DishDTO;
 import com.example.menu.service.DishService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

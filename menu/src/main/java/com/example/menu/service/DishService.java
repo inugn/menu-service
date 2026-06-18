@@ -1,7 +1,7 @@
 package com.example.menu.service;
 
 import com.example.menu.model.Dish;
-import com.example.menu.model.DishDTO;
+import com.example.menu.dto.DishDTO;
 import com.example.menu.model.MenuCategory;
 import com.example.menu.repository.DishRepository;
 import com.example.menu.repository.MenuCategoryRepository;
