@@ -3,6 +3,8 @@ import com.example.menu.model.Dish;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Getter
 @Setter
@@ -15,6 +17,7 @@ public class DishDTO {
     private Boolean isVegetarian;
     private Long categoryId;
     private String categoryName;
+    private List<String> ingredients;
 
 
     public DishDTO(Dish dish) {
@@ -24,6 +27,9 @@ public class DishDTO {
         this.isVegetarian = dish.getIsVegetarian();
         this.categoryId = dish.getCategory().getId();
         this.categoryName = dish.getCategory().getName();
+        this.ingredients = dish.getIngredients().stream()
+                .map(ingredient -> ingredient.getName())
+                .collect(Collectors.toList());
     }
 
 }
