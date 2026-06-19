@@ -28,6 +28,13 @@ public class DishService {
     }
 
     public DishDTO create(DishRequest request, Long categoryId) {
+        if (request.getName() == null || request.getName().isBlank()) {
+            throw new RuntimeException("Название блюда обязательно");
+        }
+        if (request.getPrice() == null || request.getPrice() <= 0) {
+            throw new RuntimeException("Цена должна быть больше нуля");
+        }
+
         MenuCategory category = categoryRepository.findById(categoryId)
                 .orElseThrow(() -> new RuntimeException("Категория не найдена"));
         Dish dish = new Dish();

@@ -11,7 +11,6 @@ import java.util.List;
 @Setter
 public class DishRequest {
 
-    @NotBlank(message = "Название блюда обязательно")
     private String name;
 
     @Positive(message = "Цена должна быть больше нуля")
