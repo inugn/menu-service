@@ -65,6 +65,12 @@ public class DishService {
     public DishDTO update(Long id, DishRequest request) {
         Dish dish = dishRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Блюдо не найдено"));
+
+        if (request.getName() != null && !request.getName().equals(dish.getName())) {
+            if (dishRepository.existsByNameAndCategoryId(request.getName(), dish.getCategory().getId())) {
+                throw new RuntimeException("Блюдо с таким названием уже есть в этой категории");
+            }
+        }
         if (request.getName() != null) {
             dish.setName(request.getName());
         }
