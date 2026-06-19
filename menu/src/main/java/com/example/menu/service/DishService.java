@@ -55,8 +55,8 @@ public class DishService {
     public DishDTO update(Long id, DishRequest request) {
         Dish dish = dishRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Блюдо не найдено"));
-        dish.setName(updatedDish.getName());
-        dish.setPrice(updatedDish.getPrice());
+        dish.setName(request.getName());
+        dish.setPrice(request.getPrice());
         dish.setIsVegetarian(request.getIsVegetarian());
 
         if (request.getIngredients() != null) {
