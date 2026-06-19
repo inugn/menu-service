@@ -31,7 +31,10 @@ public class DishService {
         if (request.getName() == null || request.getName().isBlank()) {
             throw new RuntimeException("Название блюда обязательно");
         }
-        if (request.getPrice() == null || request.getPrice() <= 0) {
+        if (request.getPrice() == null) {
+            throw new RuntimeException("Цена обязательна");
+        }
+        if (request.getPrice() <= 0) {
             throw new RuntimeException("Цена должна быть больше нуля");
         }
         if (dishRepository.existsByNameAndCategoryId(request.getName(), categoryId)) {
