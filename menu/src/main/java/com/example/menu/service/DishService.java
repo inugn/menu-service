@@ -72,6 +72,9 @@ public class DishService {
             }
         }
         if (request.getName() != null) {
+            if (request.getName().isBlank()) {
+                throw new RuntimeException("Название блюда не может быть пустым");
+            }
             dish.setName(request.getName());
         }
         if (request.getPrice() != null) {
