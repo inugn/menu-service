@@ -6,6 +6,9 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.List;
 
 public interface DishRepository extends JpaRepository<Dish, Long> {
+
+    boolean existsByNameAndCategoryId(String name, Long categoryId);
+
     @Query("SELECT DISTINCT d FROM Dish d JOIN FETCH d.category LEFT JOIN FETCH d.ingredients")
     List<Dish> findAllWithCategory();
 

@@ -34,6 +34,9 @@ public class DishService {
         if (request.getPrice() == null || request.getPrice() <= 0) {
             throw new RuntimeException("Цена должна быть больше нуля");
         }
+        if (dishRepository.existsByNameAndCategoryId(request.getName(), categoryId)) {
+            throw new RuntimeException("Блюдо с таким названием уже есть в этой категории");
+        }
 
         MenuCategory category = categoryRepository.findById(categoryId)
                 .orElseThrow(() -> new RuntimeException("Категория не найдена"));
