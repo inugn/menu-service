@@ -1,34 +1,61 @@
 package com.example.menu.service;
 
 import com.example.menu.model.Dish;
+import com.example.menu.dto.DishRequestDTO;
 import com.example.menu.dto.DishDTO;
+import com.example.menu.model.Ingredient;
 import com.example.menu.model.MenuCategory;
 import com.example.menu.repository.DishRepository;
+import com.example.menu.repository.IngredientRepository;
 import com.example.menu.repository.MenuCategoryRepository;
 import org.springframework.stereotype.Service;
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.Set;
+import java.util.HashSet;
 
 @Service
 public class DishService {
 
     private final DishRepository dishRepository;
     private final MenuCategoryRepository categoryRepository;
+    private final IngredientRepository ingredientRepository;
 
-    public DishService(DishRepository dishRepository, MenuCategoryRepository categoryRepository) {
+    public DishService(DishRepository dishRepository, MenuCategoryRepository categoryRepository, IngredientRepository ingredientRepository) {
         this.dishRepository = dishRepository;
         this.categoryRepository = categoryRepository;
+        this.ingredientRepository = ingredientRepository;
     }
 
-    public DishDTO create(Dish dish, Long categoryId) {
+    public DishDTO create(DishRequestDTO request, Long categoryId) {
+        if (request.getName() == null || request.getName().isBlank()) {
+            throw new RuntimeException("Название блюда обязательно");
+        }
+        if (request.getPrice() == null) {
+            throw new RuntimeException("Цена обязательна");
+        }
+        if (request.getPrice().compareTo(BigDecimal.ZERO) <= 0) {
+            throw new RuntimeException("Цена должна быть больше нуля");
+        }
+        if (dishRepository.existsByNameAndCategoryId(request.getName(), categoryId)) {
+            throw new RuntimeException("Блюдо с таким названием уже есть в этой категории");
+        }
+
         MenuCategory category = categoryRepository.findById(categoryId)
                 .orElseThrow(() -> new RuntimeException("Категория не найдена"));
+        Dish dish = new Dish();
+        dish.setName(request.getName());
+        dish.setPrice(request.getPrice());
+        dish.setIsVegetarian(request.getIsVegetarian());
         dish.setCategory(category);
+        dish.setIngredients(resolveIngredients(request.getIngredients()));
+
         return new DishDTO(dishRepository.save(dish));
     }
 
     public List<DishDTO> getAll() {
-        return dishRepository.findAllWithCategory().stream()
+        return dishRepository.findAll().stream()
                 .map(DishDTO::new)
                 .collect(Collectors.toList());
     }
@@ -39,11 +66,33 @@ public class DishService {
                 .collect(Collectors.toList());
     }
 
-    public DishDTO update(Long id, Dish updatedDish) {
+    public DishDTO update(Long id, DishRequestDTO request) {
         Dish dish = dishRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Блюдо не найдено"));
-        dish.setName(updatedDish.getName());
-        dish.setPrice(updatedDish.getPrice());
+
+        if (request.getName() != null && !request.getName().equals(dish.getName())) {
+            if (dishRepository.existsByNameAndCategoryId(request.getName(), dish.getCategory().getId())) {
+                throw new RuntimeException("Блюдо с таким названием уже есть в этой категории");
+            }
+        }
+        if (request.getName() != null) {
+            if (request.getName().isBlank()) {
+                throw new RuntimeException("Название блюда не может быть пустым");
+            }
+            dish.setName(request.getName());
+        }
+        if (request.getPrice() != null && request.getPrice().compareTo(BigDecimal.ZERO) <= 0) {
+            throw new RuntimeException("Цена должна быть больше нуля");
+        }
+        if (request.getPrice() != null) {
+            dish.setPrice(request.getPrice());
+        }
+        if (request.getIsVegetarian() != null) {
+            dish.setIsVegetarian(request.getIsVegetarian());
+        }
+        if (request.getIngredients() != null) {
+            dish.setIngredients(resolveIngredients(request.getIngredients()));
+        }
         return new DishDTO(dishRepository.save(dish));
     }
 
@@ -52,5 +101,21 @@ public class DishService {
             throw new RuntimeException("Блюдо не найдено");
         }
         dishRepository.deleteById(id);
+    }
+
+    private Set<Ingredient> resolveIngredients(List<String> names) {
+        Set<Ingredient> result = new HashSet<>();
+        if (names == null) return result;
+
+        for (String name : names) {
+            Ingredient ingredient = ingredientRepository.findByName(name)
+                    .orElseGet(() -> {
+                        Ingredient newIngredient = new Ingredient();
+                        newIngredient.setName(name);
+                        return ingredientRepository.save(newIngredient);
+                    });
+            result.add(ingredient);
+        }
+        return result;
     }
 }
