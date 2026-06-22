@@ -3,6 +3,7 @@ package com.example.menu.model;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Positive;
+import java.math.BigDecimal;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -25,7 +26,7 @@ public class Dish {
     private String name;
 
     @Positive(message = "Цена должна быть больше нуля")
-    private Double price;
+    private BigDecimal price;
 
     private Boolean isVegetarian;
 

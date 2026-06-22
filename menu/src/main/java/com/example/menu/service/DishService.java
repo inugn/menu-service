@@ -9,6 +9,7 @@ import com.example.menu.repository.DishRepository;
 import com.example.menu.repository.IngredientRepository;
 import com.example.menu.repository.MenuCategoryRepository;
 import org.springframework.stereotype.Service;
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.Set;
@@ -34,7 +35,7 @@ public class DishService {
         if (request.getPrice() == null) {
             throw new RuntimeException("Цена обязательна");
         }
-        if (request.getPrice() <= 0) {
+        if (request.getPrice().compareTo(BigDecimal.ZERO) <= 0) {
             throw new RuntimeException("Цена должна быть больше нуля");
         }
         if (dishRepository.existsByNameAndCategoryId(request.getName(), categoryId)) {
@@ -54,7 +55,7 @@ public class DishService {
     }
 
     public List<DishDTO> getAll() {
-        return dishRepository.findAllWithCategory().stream()
+        return dishRepository.findAll().stream()
                 .map(DishDTO::new)
                 .collect(Collectors.toList());
     }
@@ -80,13 +81,15 @@ public class DishService {
             }
             dish.setName(request.getName());
         }
+        if (request.getPrice() != null && request.getPrice().compareTo(BigDecimal.ZERO) <= 0) {
+            throw new RuntimeException("Цена должна быть больше нуля");
+        }
         if (request.getPrice() != null) {
             dish.setPrice(request.getPrice());
         }
         if (request.getIsVegetarian() != null) {
             dish.setIsVegetarian(request.getIsVegetarian());
         }
-
         if (request.getIngredients() != null) {
             dish.setIngredients(resolveIngredients(request.getIngredients()));
         }

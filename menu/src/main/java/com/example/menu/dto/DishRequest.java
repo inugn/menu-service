@@ -1,6 +1,6 @@
 package com.example.menu.dto;
 
-import jakarta.validation.constraints.NotBlank;
+import java.math.BigDecimal;
 import jakarta.validation.constraints.Positive;
 import lombok.Getter;
 import lombok.Setter;
@@ -14,7 +14,7 @@ public class DishRequest {
     private String name;
 
     @Positive(message = "Цена должна быть больше нуля")
-    private Double price;
+    private BigDecimal price;
 
     private Boolean isVegetarian;
 

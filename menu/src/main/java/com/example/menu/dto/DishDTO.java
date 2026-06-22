@@ -1,5 +1,6 @@
 package com.example.menu.dto;
 import com.example.menu.model.Dish;
+import java.math.BigDecimal;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -13,7 +14,7 @@ public class DishDTO {
 
     private Long id;
     private String name;
-    private Double price;
+    private BigDecimal price;
     private Boolean isVegetarian;
     private Long categoryId;
     private String categoryName;
