@@ -9,9 +9,9 @@ public interface DishRepository extends JpaRepository<Dish, Long> {
 
     boolean existsByNameAndCategoryId(String name, Long categoryId);
 
-    @EntityGraph("dish-with-category-and-ingredients")
+    @EntityGraph("Dish.withCategoryAndIngredients")
     List<Dish> findAll();
 
-    @EntityGraph("dish-with-category-and-ingredients")
+    @EntityGraph("Dish.withCategoryAndIngredients")
     List<Dish> findByCategoryId(Long categoryId);
 }

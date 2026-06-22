@@ -16,7 +16,7 @@ import java.util.Set;
 @Setter
 @NoArgsConstructor
 @NamedEntityGraph(
-        name = "dish-with-category-and-ingredients",
+        name = "Dish.withCategoryAndIngredients",
         attributeNodes = {
                 @NamedAttributeNode("category"),
                 @NamedAttributeNode("ingredients")
