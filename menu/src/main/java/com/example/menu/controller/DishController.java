@@ -1,7 +1,7 @@
 package com.example.menu.controller;
 
 import com.example.menu.dto.DishDTO;
-import com.example.menu.dto.DishRequest;
+import com.example.menu.dto.DishRequestDTO;
 import com.example.menu.service.DishService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,7 +19,7 @@ public class DishController {
     }
 
     @PostMapping
-    public ResponseEntity<DishDTO> create(@Valid @RequestBody DishRequest request, @RequestParam Long categoryId) {
+    public ResponseEntity<DishDTO> create(@Valid @RequestBody DishRequestDTO request, @RequestParam Long categoryId) {
         return ResponseEntity.ok(dishService.create(request, categoryId));
     }
 
@@ -34,7 +34,7 @@ public class DishController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<DishDTO> update(@PathVariable Long id, @Valid @RequestBody DishRequest request) {
+    public ResponseEntity<DishDTO> update(@PathVariable Long id, @Valid @RequestBody DishRequestDTO request) {
         return ResponseEntity.ok(dishService.update(id, request));
     }
 

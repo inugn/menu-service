@@ -9,7 +9,7 @@ import java.util.List;
 
 @Getter
 @Setter
-public class DishRequest {
+public class DishRequestDTO {
 
     private String name;
 

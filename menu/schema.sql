@@ -7,7 +7,7 @@ CREATE TABLE menu_category (
 CREATE TABLE dish (
     id BIGSERIAL PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
-    price DOUBLE PRECISION,
+    price DECIMAL(10, 2),
     is_vegetarian BOOLEAN,
     category_id BIGINT NOT NULL,
     CONSTRAINT fk_category FOREIGN KEY (category_id) REFERENCES menu_category(id)

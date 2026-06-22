@@ -1,7 +1,7 @@
 package com.example.menu.service;
 
 import com.example.menu.model.Dish;
-import com.example.menu.dto.DishRequest;
+import com.example.menu.dto.DishRequestDTO;
 import com.example.menu.dto.DishDTO;
 import com.example.menu.model.Ingredient;
 import com.example.menu.model.MenuCategory;
@@ -28,7 +28,7 @@ public class DishService {
         this.ingredientRepository = ingredientRepository;
     }
 
-    public DishDTO create(DishRequest request, Long categoryId) {
+    public DishDTO create(DishRequestDTO request, Long categoryId) {
         if (request.getName() == null || request.getName().isBlank()) {
             throw new RuntimeException("Название блюда обязательно");
         }
@@ -66,7 +66,7 @@ public class DishService {
                 .collect(Collectors.toList());
     }
 
-    public DishDTO update(Long id, DishRequest request) {
+    public DishDTO update(Long id, DishRequestDTO request) {
         Dish dish = dishRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Блюдо не найдено"));
 
