@@ -3,10 +3,10 @@ package com.example.menu.model;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Positive;
-import java.math.BigDecimal;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -15,6 +15,13 @@ import java.util.Set;
 @Getter
 @Setter
 @NoArgsConstructor
+@NamedEntityGraph(
+        name = "dish-with-category-and-ingredients",
+        attributeNodes = {
+                @NamedAttributeNode("category"),
+                @NamedAttributeNode("ingredients")
+        }
+)
 public class Dish {
 
     @Id
